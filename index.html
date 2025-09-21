@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>El Jardín Mágico — Para Ana Cristina</title>
+<style>
+  :root {
+    --bg: #0f1724;
+    --card: #0b1220cc;
+    --petal: #ffd94d;
+    --petal-dark: #ffcc33;
+    --center: #ff9f1c;
+    --text: #fff8e6;
+    --accent: #ff6b81;
+    --success: #6bff92;
+    --dark-petal: #8a7a49;
+    --dark-center: #4d4428;
+  }
+
+  html,body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 10% 10%, #11203a 0%, transparent 25%),
+                radial-gradient(1000px 500px at 90% 90%, #051225 0%, transparent 20%),
+                var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23fff' d='M10 21.673l-1.396-1.396a9.453 9.453 0 01-2.03-3.414 9.49 9.49 0 010-3.619 9.452 9.452 0 012.03-3.414L10 8.414l-1.414-1.414L7.172 8.414A9.444 9.444 0 015.14 11.828a9.48 9.48 0 010 3.344 9.44 9.44 0 012.032 3.344L8.586 20.26l-1.414 1.414L10 21.673z'/%3E%3Cpath fill='%23fff' d='M14 21.673l1.396-1.396a9.453 9.453 0 002.03-3.414 9.49 9.49 0 000-3.619 9.452 9.452 0 00-2.03-3.414L14 8.414l1.414-1.414 1.414 1.414a9.444 9.444 0 002.032-3.344 9.48 9.48 0 000-3.344 9.44 9.44 0 00-2.032-3.344L14 3.736l1.414-1.414 1.414 1.414a9.444 9.444 0 002.032 3.344 9.48 9.48 0 000 3.344 9.44 9.44 0 00-2.032 3.344L14 14.26l-1.414-1.414L14 12.849l1.414-1.414-1.414-1.414L14 8.414l1.414-1.414L14 8.414z'/%3E%3C/svg%3E"), auto;
+  }
+  
+  /* Contenedor principal para el layout */
+  .layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .side-photo {
+    flex-shrink: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+  }
+  .side-photo.hidden { opacity: 0; display: none; }
+  .side-photo img {
+    max-width: 180px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    border: 3px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s ease;
+  }
+  .side-photo img:hover {
+    transform: scale(1.05);
+  }
+
+  /* La tarjeta principal se mantiene centrada */
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    border-radius: 16px;
+    padding: 28px 36px;
+    box-shadow: 0 10px 30px rgba(3, 6, 23, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(6px) saturate(120%);
+    text-align: center;
+    z-index: 60;
+    max-width: 720px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1.2), opacity 0.4s ease;
+  }
+  .card.hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
+
+  /* Ajustes de tipografía para mejor legibilidad */
+  .title {
+    font-size: 1.5rem;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .subtitle {
+    margin: 0 0 18px 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+  }
+  .heart {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(180deg, var(--accent), #ff4776);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(255, 107, 129, 0.18);
+    transform: translateY(-2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .heart::after {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background: white;
+    mask: radial-gradient(circle at 20% 35%, transparent 18%, black 20%), radial-gradient(circle at 80% 35%, transparent 18%, black 20%), linear-gradient(#000, #000);
+    -webkit-mask-composite: source-in;
+    mask-composite: exclude;
+    transform: rotate(-45deg) translateY(1px);
+    border-radius: 2px;
+    opacity: 0.95;
+  }
+  .message {
+    font-size: 1.15rem;
+    line-height: 1.3;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .small {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 8px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.00));
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:active { transform: scale(.98); }
+
+  /* Fondo de flores */
+  #garden {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+    transition: filter 2s ease;
+  }
+  #garden.dimmed { filter: brightness(0.5); }
+  #garden.final-bloom { filter: saturate(1.5) brightness(1.2); }
+  .flower {
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    transform-origin: center;
+    pointer-events: auto;
+    cursor: pointer;
+    z-index: 20;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .flower.collected { transform: scale(0.6); opacity: 0; }
+  .flower .petal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 42%;
+    height: 42%;
+    transform-origin: 50% 70%;
+    background: linear-gradient(180deg, var(--petal), var(--petal-dark));
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 4px 10px rgba(255, 170, 50, 0.13), inset 0 -6px 18px rgba(255, 255, 255, 0.06);
+  }
+  .flower.dark-flower .petal {
+    background: linear-gradient(180deg, var(--dark-petal), var(--dark-petal));
+    filter: grayscale(1) brightness(0.6);
+  }
+  .flower.dark-flower .center {
+    background: radial-gradient(circle at 35% 30%, var(--dark-center) 0%, #4d4428 50%, #201a0f 100%);
+  }
+  .flower .petal.p1 { transform: translate(-50%, -50%) rotate(0deg) translateY(-34px) rotate(0deg) }
+  .flower .petal.p2 { transform: translate(-50%, -50%) rotate(45deg) translateY(-34px) rotate(-45deg) }
+  .flower .petal.p3 { transform: translate(-50%, -50%) rotate(90deg) translateY(-34px) rotate(-90deg) }
+  .flower .petal.p4 { transform: translate(-50%, -50%) rotate(135deg) translateY(-34px) rotate(-135deg) }
+  .flower .petal.p5 { transform: translate(-50%, -50%) rotate(180deg) translateY(-34px) rotate(-180deg) }
+  .flower .petal.p6 { transform: translate(-50%, -50%) rotate(225deg) translateY(-34px) rotate(-225deg) }
+  .flower .petal.p7 { transform: translate(-50%, -50%) rotate(270deg) translateY(-34px) rotate(-270deg) }
+  .flower .petal.p8 { transform: translate(-50%, -50%) rotate(315deg) translateY(-34px) rotate(-315deg) }
+  .flower .petal { animation: petalWobble 3.6s ease-in-out infinite; }
+  .flower .petal.p2 { animation-delay: 0.18s }
+  .flower .petal.p3 { animation-delay: 0.32s }
+  .flower .petal.p4 { animation-delay: 0.48s }
+  .flower .petal.p5 { animation-delay: 0.66s }
+  .flower .petal.p6 { animation-delay: 0.82s }
+  .flower .petal.p7 { animation-delay: 0.98s }
+  .flower .petal.p8 { animation-delay: 1.12s }
+  @keyframes petalWobble {
+    0%, 100% { transform: translate(-50%, -50%) rotate(var(--r, 0deg)) translateY(-34px) rotate(0deg) scale(1) }
+    50% { transform: translate(-50%, -50%) rotate(var(--r, 0deg)) translateY(-36px) rotate(0deg) scale(1.03) }
+  }
+  .flower .center {
+    position: absolute;
+    width: 36%;
+    height: 36%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffd98a 0%, var(--center) 50%, #ff8000 100%);
+    box-shadow: 0 6px 10px rgba(255, 120, 30, 0.18), inset 0 -6px 12px rgba(255, 255, 255, 0.06);
+  }
+  .flower { animation: floatY var(--dur, 8s) ease-in-out infinite; }
+  @keyframes floatY {
+    0% { transform: translateY(0) rotate(var(--rot, 0deg)) scale(var(--s, 1)) }
+    50% { transform: translateY(-12px) rotate(calc(var(--rot, 0deg) + 2deg)) scale(calc(var(--s, 1) * 1.01)) }
+    100% { transform: translateY(0) rotate(var(--rot, 0deg)) scale(var(--s, 1)) }
+  }
+  .sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fff, #ffd94d 60%, #ff9f1c 100%);
+    pointer-events: none;
+    z-index: 120;
+    transform: translate(-50%, -50%) scale(0.1);
+    animation: spark 700ms linear forwards;
+  }
+  @keyframes spark {
+    to { transform: translate(-50%, -50%) scale(1.6); opacity: 0; filter: blur(6px) }
+  }
+  /* UI del juego */
+  .game-ui {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    z-index: 100;
+  }
+  .game-ui .ui-box {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .progress-bar {
+    width: 200px;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px auto;
+  }
+  .progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ffd94d, #ff6b81);
+    transition: width 0.3s ease;
+  }
+  .note {
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 10px;
+  }
+  .intro-text-container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+      line-height: 1.5;
+  }
+  
+  /* Media Queries para una adaptación perfecta */
+  @media (min-width: 900px) {
+    .layout {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    .side-photo {
+        width: 200px;
+        flex-shrink: 0;
+    }
+    .card {
+        max-width: 720px;
+    }
+    .side-photo.hidden {
+      display: flex; /* Sigue las reglas de desktop si no es móvil */
+    }
+    .side-photo.hidden img {
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 20px; }
+    .title { font-size: 1.15rem; }
+    .message { font-size: 1rem; }
+    .flower { width: 72px; height: 72px; }
+    .game-ui { gap: 12px; }
+    .side-photo img { max-width: 140px; }
+  }
+</style>
+</head>
+<body>
+  <div id="garden" aria-hidden="true"></div>
+
+  <div class="layout">
+    <div class="side-photo left"><img src="foto-izquierda.jpg" alt="Foto tuya y Ana Cristina"></div>
+    
+    <div class="center-content">
+      <main class="card" role="dialog" aria-label="El Jardín Mágico de Ana Cristina">
+        <div id="start-screen">
+          <div class="title"><div class="heart" aria-hidden="true"></div>El Jardín Mágico</div>
+          <p class="subtitle">21 de septiembre — Día de las flores amarillas</p>
+          <div class="intro-text-container">
+            <p class="message">Para mi maga favorita, <span style="color:var(--accent)">Ana Cristina</span>.</p>
+            <p class="small">Este jardín, una vez vibrante y lleno de vida, ha caído bajo un hechizo oscuro. Solo las <strong>flores amarillas</strong> que crecen aquí pueden devolverle su magia.</p>
+            <p class="small">Cada flor que recolectas nos acerca a restaurar su belleza. Pero ten cuidado, las <strong>flores oscuras</strong> te harán perder el tiempo. Y si tienes suerte, ¡podrías encontrar una <strong>flor dorada</strong> que te otorgará un poder especial!</p>
+            <p class="message">¿Estás lista para devolverle la luz a este lugar?</p>
+          </div>
+          <button id="startGameBtn" class="btn">Empezar el Viaje ✨</button>
+          <div class="note">Hecho con el corazón, como en la historia de Hollow Knight.</div>
+        </div>
+        
+        <div id="game-screen" style="display:none">
+          <div class="game-ui">
+            <div class="ui-box">Nivel <span id="level">1</span></div>
+            <div class="ui-box">
+              Puntos: <span id="score">0</span>
+            </div>
+            <div class="ui-box">
+              Tiempo: <span id="timer"></span>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+          <p class="message" id="gameMessage"></p>
+        </div>
+
+        <div id="end-screen" style="display:none">
+          <div class="title">
+            <div class="heart" aria-hidden="true"></div>
+            <div id="endTitle"></div>
+          </div>
+          <p class="message" id="endMessage"></p>
+          <div class="score-display">
+            Puntuación final: <span id="finalScore">0</span>
+          </div>
+          <button id="playAgainBtn" class="btn">Volver a jugar 🪄</button>
+          <div class="note">¡Gracias por salvar el jardín!</div>
+        </div>
+      </main>
+    </div>
+
+    <div class="side-photo right"><img src="foto-derecha.jpg" alt="Foto tuya y Ana Cristina"></div>
+  </div>
+
+  <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1123.mp3" preload="auto"></audio>
+  <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-success-916.mp3" preload="auto"></audio>
+  <audio id="loseSound" src="https://assets.mixkit.co/sfx/preview/mixkit-fail-460.mp3" preload="auto"></audio>
+
+  <script>
+    const garden = document.getElementById('garden');
+    const card = document.querySelector('.card');
+    const startScreen = document.getElementById('start-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const endScreen = document.getElementById('end-screen');
+    const sidePhotos = document.querySelectorAll('.side-photo');
+
+    const startGameBtn = document.getElementById('startGameBtn');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const levelDisplay = document.getElementById('level');
+    const progressBar = document.getElementById('progressBar');
+    const gameMessage = document.getElementById('gameMessage');
+    const endTitle = document.getElementById('endTitle');
+    const endMessage = document.getElementById('endMessage');
+    const finalScoreDisplay = document.getElementById('finalScore');
+
+    const clickSound = document.getElementById('clickSound');
+    const winSound = document.getElementById('winSound');
+    const loseSound = document.getElementById('loseSound');
+
+    let score = 0;
+    let timer = 45;
+    let level = 1;
+    let flowersCollected = 0;
+    const levels = [
+      { goal: 10, time: 45, spawnRate: 800, darkChance: 0, goldChance: 0.05 },
+      { goal: 15, time: 45, spawnRate: 600, darkChance: 0.15, goldChance: 0.08 },
+      { goal: 20, time: 40, spawnRate: 400, darkChance: 0.25, goldChance: 0.1 }
+    ];
+
+    let gameInterval;
+    let flowerInterval;
+    let isPlaying = false;
+
+    function playSound(sound) {
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+    function createFlower(xPercent, yPercent, type = 'normal', scale = 1, rotation = 0, duration = null) {
+      if (!isPlaying) return;
+      const flower = document.createElement('div');
+      flower.className = `flower ${type}-flower`;
+      flower.style.left = xPercent + '%';
+      flower.style.top = yPercent + '%';
+      flower.style.width = Math.round(90 * scale) + 'px';
+      flower.style.height = Math.round(90 * scale) + 'px';
+      flower.style.setProperty('--s', scale);
+      flower.style.setProperty('--rot', rotation + 'deg');
+      if (duration) flower.style.setProperty('--dur', duration + 's');
+
+      for (let i = 1; i <= 8; i++) {
+        const p = document.createElement('div');
+        p.className = 'petal p' + i;
+        const r = (i - 1) * 45 + (Math.random() * 8 - 4);
+        p.style.setProperty('--r', r + 'deg');
+        flower.appendChild(p);
+      }
+
+      const center = document.createElement('div');
+      center.className = 'center';
+      flower.appendChild(center);
+
+      garden.appendChild(flower);
+
+      flower.style.opacity = 0;
+      flower.style.transition = 'opacity 600ms ease, transform 400ms ease';
+      requestAnimationFrame(() => flower.style.opacity = 1);
+
+      flower.addEventListener('click', () => {
+        if (!isPlaying) return;
+        playSound(clickSound);
+        
+        const rect = flower.getBoundingClientRect();
+        makeSparkle(rect.left + rect.width / 2, rect.top + rect.height / 2);
+
+        if (type === 'normal') {
+          score += 10;
+          flowersCollected++;
+        } else if (type === 'gold') {
+          score += 50;
+          timer += 5;
+          flowersCollected++;
+          gameMessage.textContent = "¡Tiempo extra! +5s";
+          setTimeout(() => gameMessage.textContent = "", 1500);
+        } else if (type === 'dark') {
+          score -= 20;
+          timer -= 5;
+          if (timer < 0) timer = 0;
+          gameMessage.textContent = "¡Oh no, una flor oscura! -5s";
+          setTimeout(() => gameMessage.textContent = "", 1500);
+        }
+        
+        scoreDisplay.textContent = score;
+        flower.classList.add('collected');
+        checkProgress();
+        
+        setTimeout(() => flower.remove(), 360);
+      });
+
+      return flower;
+    }
+
+    function makeSparkle(x, y) {
+      for (let i = 0; i < 10; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle';
+        s.style.left = x + (Math.random() * 120 - 60) + 'px';
+        s.style.top = y + (Math.random() * 60 - 30) + 'px';
+        s.style.width = s.style.height = (6 + Math.random() * 14) + 'px';
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 900);
+      }
+    }
+
+    function spawnFlower() {
+      if (!isPlaying) return;
+      const currentLevel = levels[level - 1];
+      const x = randomBetween(10, 90);
+      const y = randomBetween(8, 82);
+      const scale = randomBetween(0.75, 1.25);
+      const rot = randomBetween(-10, 10);
+      const dur = randomBetween(6, 12);
+      
+      const rand = Math.random();
+      let type = 'normal';
+      if (rand < currentLevel.darkChance) {
+        type = 'dark';
+      } else if (rand < currentLevel.darkChance + currentLevel.goldChance) {
+        type = 'gold';
+      }
+      
+      createFlower(x, y, type, scale, rot, dur);
+    }
+
+    function startGame() {
+      isPlaying = true;
+      score = 0;
+      level = 1;
+      flowersCollected = 0;
+      
+      startScreen.style.display = 'none';
+      gameScreen.style.display = 'block';
+      endScreen.style.display = 'none';
+
+      card.classList.add('hidden');
+      garden.classList.add('dimmed');
+      
+      sidePhotos.forEach(photo => photo.classList.add('hidden'));
+
+      updateUI();
+      startLevel();
+    }
+
+    function startLevel() {
+      const currentLevel = levels[level - 1];
+      flowersCollected = 0;
+      timer = currentLevel.time;
+      levelDisplay.textContent = level;
+      gameMessage.textContent = `Nivel ${level}: ¡Recolecta ${currentLevel.goal} flores!`;
+      
+      clearInterval(flowerInterval);
+      clearInterval(gameInterval);
+      
+      flowerInterval = setInterval(spawnFlower, currentLevel.spawnRate);
+      gameInterval = setInterval(() => {
+        timer--;
+        timerDisplay.textContent = timer;
+        if (timer <= 0) {
+          endGame(false);
+        }
+      }, 1000);
+    }
+
+    function checkProgress() {
+      const currentLevel = levels[level - 1];
+      progressBar.style.width = `${(flowersCollected / currentLevel.goal) * 100}%`;
+
+      if (flowersCollected >= currentLevel.goal) {
+        if (level < levels.length) {
+          level++;
+          gameMessage.textContent = "¡Nivel completado! Prepárate para el siguiente...";
+          playSound(winSound);
+          setTimeout(startLevel, 3000);
+        } else {
+          endGame(true);
+        }
+      }
+    }
+
+    function endGame(hasWon) {
+      isPlaying = false;
+      clearInterval(gameInterval);
+      clearInterval(flowerInterval);
+      
+      document.querySelectorAll('.flower').forEach(f => f.remove());
+
+      card.classList.remove('hidden');
+      gameScreen.style.display = 'none';
+      endScreen.style.display = 'block';
+      finalScoreDisplay.textContent = score;
+
+      if (hasWon) {
+        endTitle.textContent = "¡Victoria! El Jardín ha Renacido 🏆";
+        endMessage.textContent = `¡Lo lograste, Ana Cristina! Tu magia ha devuelto la vida y el color a este lugar. ¡Feliz Día de las Flores Amarillas!`;
+        garden.classList.remove('dimmed');
+        garden.classList.add('final-bloom');
+        playSound(winSound);
+        
+        sidePhotos.forEach(photo => photo.classList.remove('hidden'));
+
+        for(let i = 0; i < 40; i++) {
+          const x = randomBetween(5, 95);
+          const y = randomBetween(5, 95);
+          createFlower(x, y, 'normal', randomBetween(0.8, 1.5), randomBetween(-30, 30), randomBetween(8, 16));
+        }
+        setTimeout(() => garden.classList.remove('final-bloom'), 5000);
+        
+      } else {
+        endTitle.textContent = "El hechizo aún persiste 😔";
+        endMessage.textContent = `Te quedaste sin tiempo, pero el jardín aún te espera. ¡Vuelve a intentarlo para restaurar su esplendor!`;
+        garden.classList.add('dimmed');
+        playSound(loseSound);
+      }
+    }
+
+    function updateUI() {
+      scoreDisplay.textContent = score;
+      timerDisplay.textContent = timer;
+      levelDisplay.textContent = level;
+      progressBar.style.width = '0%';
+    }
+
+    startGameBtn.addEventListener('click', startGame);
+    playAgainBtn.addEventListener('click', startGame);
+
+    // Sembrar flores iniciales de adorno
+    for(let i = 0; i < 12; i++) {
+      const x = randomBetween(10, 90);
+      const y = randomBetween(8, 82);
+      createFlower(x, y, 'normal', randomBetween(0.75, 1.25), randomBetween(-10, 10), randomBetween(6, 12));
+    }
+  </script>
+</body>
+</html>
