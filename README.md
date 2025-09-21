@@ -37,4 +37,3 @@ A la inspiración detrás de este proyecto: Ana Cristina.
 
 ---
 
-_Desarrollado con ❤️ por [Tu Nombre de Usuario o Nombre Real]_
